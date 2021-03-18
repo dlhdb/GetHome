@@ -1,0 +1,17 @@
+
+homepage
+	CRUD house info
+		block to paste URL to add house info
+		list all house info
+		delete by click X button
+		update house info
+		
+user management
+	hard code account
+	login using google account
+	
+mongodb
+	mongodb atlas to google cloud
+
+deploy to google cloud
+
