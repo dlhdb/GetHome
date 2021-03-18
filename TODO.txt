@@ -1,0 +1,22 @@
+
+reconstruct file structure to MTV
+
+homepage
+	CRUD house info
+		block to paste URL to add house info
+		list all house info
+		delete by click X button
+		update house info
+		
+user management
+	store in mongodb
+		collection: user
+		Encryption algorithm
+			PyCryptodome RSA
+	login using google account
+	
+mongodb
+	mongodb atlas to google cloud
+
+deploy to google cloud
+
