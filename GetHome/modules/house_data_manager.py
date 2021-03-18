@@ -1,5 +1,4 @@
 import pymongo
-import abc
 import json
 import copy
 from bson import json_util

@@ -3,7 +3,7 @@
 from bs4 import BeautifulSoup 
 import urllib.request as req
 
-from house_data_manager import HouseInfo
+from GetHome.modules.house_data_manager import HouseInfo
 
 def parse591(url):
     ret_house_info = HouseInfo()

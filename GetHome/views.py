@@ -1,10 +1,9 @@
 
-from flask import Flask, request, Response
-import house_parser
-from house_data_manager import LocalMongoDB, serialize_object
+from flask import request, Response
 
-
-app = Flask(__name__)
+from GetHome import app
+from GetHome.modules import house_parser
+from GetHome.modules.house_data_manager import LocalMongoDB, serialize_object
 
 mydb = LocalMongoDB()
 
@@ -14,7 +13,7 @@ def home():
     return "123" 
 
 @app.route("/login", methods=["POST"])
-def home():
+def login():
     user = request.form.get("user", "")
     pw = request.form.get("pw", "")
 
@@ -63,5 +62,3 @@ def update_house_data():
 def delete_house_data():
     id = request.args.get('id')
     pass
-
-app.run()
