@@ -12,8 +12,7 @@ mydb = LocalMongoDB()
 # home page
 @app.route("/", methods=["GET"])
 def home():
-    house_list = mydb.get_house_list()
-    return render_template("index.html", house_list = house_list)
+    return render_template("index.html")
 
 @app.route("/login", methods=["POST"])
 def login():
@@ -58,12 +57,16 @@ def add_house_data():
 @app.route("/house", methods=["PUT"])
 def update_house_data():
     id = request.args.get('id')
-    pass
+    data = request.form
+    if mydb.update_house_data(id, data):
+        return Response(status=200)
+    else:
+        return Response(status=500)
 
 # delete house data
 @app.route("/house", methods=["DELETE"])
 def delete_house_data():
-    id = request.form["id"]
+    id = request.args.get('id')
     if mydb.del_house_data(id):
         return Response(status=200)
     else:

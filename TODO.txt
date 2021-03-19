@@ -1,10 +1,8 @@
 
 features:
-	update house data REST API
-
+	log mechanism:
+	
 	web page:
-		CRUD house info
-			update house info
 			
 	user management:
 		store in mongodb

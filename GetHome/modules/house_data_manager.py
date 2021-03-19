@@ -89,11 +89,9 @@ class LocalMongoDB:
         ret = [x for x in cursor]
         return ret
 
-    def update_house_data(self, data):
+    def update_house_data(self, id, data):
         if not self.connect_db():
             return False
-
-        id = data._id
 
         result = self._house_info_coll.find_one_and_replace({'_id': ObjectId(id)}, data)
         if result:
