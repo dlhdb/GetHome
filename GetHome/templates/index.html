@@ -7,6 +7,40 @@
     <title>Home</title>
 </head>
 <body>
-    
+    <form id="add_house_data_form" action="/house?type=parse" method="post">
+        <input type="text" name="url" id="" maxlength="1000" size="50" placeholder="URL">
+        <input type="submit" value="Add">
+    </form>
+
+    <hr>
+
+    {% for house_info in house_list %}
+    <div>
+        <ul>
+            <li><span>價錢</span> {{ house_info.price }}</li>
+            <li><span>格局</span> {{ house_info.house_pattern }}</li>
+            <li><span>屋齡</span> {{ house_info.age }}</li>
+            <li><span>樓層</span> {{ house_info.floors }}</li>
+            <li><span>型態</span> {{ house_info.building_type }}</li>
+            <li><span>地址</span> {{ house_info.address }}</li>
+            <li><span>座向</span> {{ house_info.direction }}</li>
+            <li><span>社區</span> {{ house_info.apartment_complex }}</li>
+            <li><span>權狀坪數</span> {{ house_info.ownership_size }}</li>
+            <li><span>土地坪數</span> {{ house_info.land_size }}</li>
+            <li><span>主建物坪數</span> {{ house_info.main_building_size }}</li>
+            <li><span>資料來源</span> {{ house_info['source'] }}</li>
+            <li name="id" hidden>{{ house_info['_id'] }}</li>
+
+            <button class=delete_house>Delete</button>
+            <button>Update</button>
+        </ul>
+        
+    </div>
+    <hr>
+    {% endfor %}
+     
+    <!-- import jQuery from google CDN -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="../static/index.js"></script>
 </body>
 </html>

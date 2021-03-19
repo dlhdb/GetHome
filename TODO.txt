@@ -1,22 +1,22 @@
 
-reconstruct file structure to MTV
+features:
+	update house data REST API
 
-homepage
-	CRUD house info
-		block to paste URL to add house info
-		list all house info
-		delete by click X button
-		update house info
+	web page:
+		CRUD house info
+			update house info
+			
+	user management:
+		store in mongodb
+			collection: user
+			Encryption algorithm
+				PyCryptodome RSA
+		login using google account
 		
-user management
-	store in mongodb
-		collection: user
-		Encryption algorithm
-			PyCryptodome RSA
-	login using google account
-	
-mongodb
-	mongodb atlas to google cloud
+	mongodb:
+		mongodb atlas to google cloud
 
-deploy to google cloud
+	deploy to google cloud
 
+issues:
+some 591 webpage parse fail:  https://sale.591.com.tw/home/house/detail/2/8372272.html

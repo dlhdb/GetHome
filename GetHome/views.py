@@ -1,5 +1,7 @@
 
 from flask import request, Response
+from flask import render_template
+
 
 from GetHome import app
 from GetHome.modules import house_parser
@@ -10,7 +12,8 @@ mydb = LocalMongoDB()
 # home page
 @app.route("/", methods=["GET"])
 def home():
-    return "123" 
+    house_list = mydb.get_house_list()
+    return render_template("index.html", house_list = house_list)
 
 @app.route("/login", methods=["POST"])
 def login():
@@ -43,7 +46,6 @@ def add_house_data():
         url = request.form["url"]
         parse_res = house_parser.parse591(url)
         insert_data = mydb.insert_house_data(parse_res)
-        print(type(insert_data))
         if insert_data:
             response = Response(serialize_object(insert_data), status=201, mimetype='application/json')
         else:
@@ -52,13 +54,17 @@ def add_house_data():
     elif post_type == "manual":
         return "TODO"
 
+# update house data
 @app.route("/house", methods=["PUT"])
 def update_house_data():
     id = request.args.get('id')
     pass
 
-
+# delete house data
 @app.route("/house", methods=["DELETE"])
 def delete_house_data():
-    id = request.args.get('id')
-    pass
+    id = request.form["id"]
+    if mydb.del_house_data(id):
+        return Response(status=200)
+    else:
+        return Response(status=500)
