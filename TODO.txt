@@ -1,9 +1,5 @@
 
-features:
-	log mechanism:
-	
-	web page:
-			
+features:			
 	user management:
 		store in mongodb
 			collection: user
