@@ -3,6 +3,7 @@ import json
 import copy
 from bson import json_util
 from bson.objectid import ObjectId
+from default_settings import Config
 
 class HouseInfo():
     def __init__(self):
@@ -50,7 +51,7 @@ class LocalMongoDB:
         else:
             # try to connect db
             if not self._mongo_client:
-                self._mongo_client = pymongo.MongoClient("mongodb://localhost:27017/")
+                self._mongo_client = pymongo.MongoClient(Config.MONGODB_CONN_STR)
             
             if self._mongo_client and (not self._house_db):
                 self._house_db = self._mongo_client["houseDB"] # choose db
@@ -90,6 +91,8 @@ class LocalMongoDB:
         return ret
 
     def update_house_data(self, id, data):
+        # TODO: check data type
+
         if not self.connect_db():
             return False
 

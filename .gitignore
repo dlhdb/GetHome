@@ -3,4 +3,8 @@
 
 **/__pycache__
 
+# virtual environment
 appenv
+
+# config file
+default_settings.py

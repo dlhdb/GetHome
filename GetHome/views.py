@@ -58,6 +58,7 @@ def add_house_data():
 def update_house_data():
     id = request.args.get('id')
     data = request.form
+    # TODO: parse form data to house data. not rely on under module data structure.
     if mydb.update_house_data(id, data):
         return Response(status=200)
     else:
