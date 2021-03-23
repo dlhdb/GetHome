@@ -1,13 +1,14 @@
 
 features:			
 	user management:
-		store in mongodb
-			collection: user
-			Encryption algorithm
-				PyCryptodome RSA
-		login using google account
+		user session
+
+	house info schema
+		add user id
 
 	deploy to google cloud
+
+	Gunicorn
 
 	unit test
 

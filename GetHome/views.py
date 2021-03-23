@@ -1,12 +1,15 @@
 
-from flask import request, Response
+from flask import request, Response, redirect
 from flask import render_template
-
+import logging
 
 from GetHome import app
 from GetHome.modules import house_parser
 from GetHome.modules.house_data_manager import LocalMongoDB, serialize_object
+from GetHome.modules import user_manager
+from app_config import config
 
+logger = logging.getLogger()
 mydb = LocalMongoDB()
 
 # home page
@@ -14,17 +17,32 @@ mydb = LocalMongoDB()
 def home():
     return render_template("index.html")
 
-@app.route("/login", methods=["POST"])
-def login():
-    user = request.form.get("user", "")
-    pw = request.form.get("pw", "")
 
-    # get user info from db
-    # RSA decrypt and check info
-    # if pass redirect to home page
-    # else return access denied page
+@app.route("/google_signin", methods=["GET", "POST"])
+def google_signin():
+    if request.method == 'GET':
+        res = render_template(
+            "login.html",
+            client_id=config['env_vars']['google_oauth']['CLIENT_ID'],
+            login_callback=request.host_url+"/google_signin") # callback url after google sign in
+        return res
+    elif request.method == 'POST':
+        csrf_token_cookie = request.cookies.get('g_csrf_token')
+        if not csrf_token_cookie:
+            return Response('No CSRF token in Cookie.', status=400)
+        csrf_token_body = request.form.get('g_csrf_token')
+        if not csrf_token_body:
+            return Response('No CSRF token in post body.', status=400)
+        if csrf_token_cookie != csrf_token_body:
+            return Response('Failed to verify double submit cookie.', status=400)
 
-    return True
+        id_token = request.form.get('credential')
+        if user_manager.validate_google_token(id_token):
+            logger.info("validate id token success")
+            return redirect("/")
+        else:
+            logger.info("validate id token fail")
+            return Response('validate id token fail', status=400)
     
 
 # get house list

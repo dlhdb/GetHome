@@ -1,11 +1,11 @@
 # GetHome
 
-This is a web app learning project designed to record house saling information.
+This is a web app learning project designed to record house selling information.
 
 ## Main functions
-- parse house saling web page content (currently only support 591)
-- CRUD house information through the web pages
-- user can login with google account
+- Parse house selling web page content. (currently only support 591)
+- CRUD house information through the web pages.
+- Users can login with google account.
 
 ## Related techniques
 - backend framework：python flask
