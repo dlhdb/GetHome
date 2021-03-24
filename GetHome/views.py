@@ -1,16 +1,14 @@
 
 from flask import request, Response, redirect
 from flask import render_template
-import logging
 
-from GetHome import app
+from GetHome import app, logger
 from GetHome.modules import house_parser
-from GetHome.modules.house_data_manager import LocalMongoDB, serialize_object
+from GetHome.modules.house_data_manager import HouseManager, serialize_object
 from GetHome.modules import user_manager
 from app_config import config
 
-logger = logging.getLogger()
-mydb = LocalMongoDB()
+house_manager = HouseManager()
 
 # home page
 @app.route("/", methods=["GET"])
@@ -48,7 +46,7 @@ def google_signin():
 # get house list
 @app.route("/house", methods=["Get"])
 def get_houses():
-    ls = mydb.get_house_list()
+    ls = house_manager.get_house_list()
     jstr = serialize_object(ls)
     response = Response(jstr, status=200, mimetype='application/json')
     return response
@@ -62,7 +60,7 @@ def add_house_data():
     if post_type == "parse":
         url = request.form["url"]
         parse_res = house_parser.parse591(url)
-        insert_data = mydb.insert_house_data(parse_res)
+        insert_data = house_manager.insert_house_data(parse_res)
         if insert_data:
             response = Response(serialize_object(insert_data), status=201, mimetype='application/json')
         else:
@@ -77,7 +75,7 @@ def update_house_data():
     id = request.args.get('id')
     data = request.form
     # TODO: parse form data to house data. not rely on under module data structure.
-    if mydb.update_house_data(id, data):
+    if house_manager.update_house_data(id, data):
         return Response(status=200)
     else:
         return Response(status=500)
@@ -86,7 +84,7 @@ def update_house_data():
 @app.route("/house", methods=["DELETE"])
 def delete_house_data():
     id = request.args.get('id')
-    if mydb.del_house_data(id):
+    if house_manager.del_house_data(id):
         return Response(status=200)
     else:
         return Response(status=500)

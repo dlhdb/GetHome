@@ -10,8 +10,9 @@ rotate_file_handler = logging.handlers.RotatingFileHandler(
     LOG_FILENAME, maxBytes=1024*10, backupCount=5)
 rotate_file_handler.setFormatter(formatter)
 
-logging.getLogger().addHandler(rotate_file_handler)
-logging.getLogger().setLevel(level=logging.DEBUG)
+logger = logging.getLogger()
+logger.addHandler(rotate_file_handler)
+logger.setLevel(level=logging.DEBUG)
 
 
 ## setup google cloud logging

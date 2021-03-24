@@ -30,7 +30,7 @@ class HouseInfo():
     def to_json(self):
         return json.dumps(self.to_dict(), indent=4, ensure_ascii=False)
 
-class LocalMongoDB:
+class HouseManager:
 
     # singleton pattern
     _instance = None
@@ -116,18 +116,5 @@ class LocalMongoDB:
         else:
             return False
 
-
-
-class CloudDB:
-    def insert_house_data():
-        pass
-
-    def get_house_list():
-        pass
-
-
 def serialize_object(obj):
     return json_util.dumps(obj, indent=4, ensure_ascii=False)
-
-
-LocalMongoDB().del_house_data("6051e48da44f430519627413")
