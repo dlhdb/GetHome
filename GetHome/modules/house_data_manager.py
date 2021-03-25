@@ -65,44 +65,44 @@ class HouseManager:
         
         return True
 
-    def insert_house_data(self, data):
-        if not isinstance(data, HouseInfo):
+    def insert_house_data(self, userid:str, data:dict):
+        if not isinstance(data, dict):
             return False
 
         if not self.connect_db():
             return False
 
-        if self._house_info_coll:
-            data_dict = data.to_dict()
-            result = self._house_info_coll.insert_one(data_dict)
-            if result: # insert success
-                return data_dict
-            else:
-                return None
+        data['userid'] = userid
+        self._house_info_coll.insert_one(data)
+        return data
             
-    def get_house_list(self):
+    def get_house_list(self, filter:dict):
         if not self.connect_db():
             return False
+
+        if not isinstance(filter, dict):
+            raise TypeError("Expected dict type")
 
         # get all documents under the collection
-        cursor = self._house_info_coll.find({}) 
+        cursor = self._house_info_coll.find(filter)
 
         ret = [x for x in cursor]
         return ret
 
-    def update_house_data(self, id, data):
-        # TODO: check data type
+    def update_house_data(self, id:str, data:dict):
+        if not isinstance(data, dict):
+            return False
 
         if not self.connect_db():
             return False
 
-        result = self._house_info_coll.find_one_and_replace({'_id': ObjectId(id)}, data)
+        result = self._house_info_coll.find_one_and_update({'_id': ObjectId(id)}, {"$set":data})
         if result:
             return True
         else:
             return False
 
-    def del_house_data(self, id):
+    def del_house_data(self, id:str):
         if not self.connect_db():
             return False
 

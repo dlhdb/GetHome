@@ -1,8 +1,5 @@
 
 features:
-	house info schema
-		add user id
-
 	deploy to google cloud
 
 	Gunicorn

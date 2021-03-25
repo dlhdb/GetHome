@@ -19,8 +19,8 @@ def parse591(url):
     ##########
     root = BeautifulSoup(data, "html.parser")
     info_box = root.find("div", class_="info-box")
-    info_price = info_box.find("span", class_="info-price-num").string
-    info_price_unit = info_box.find("span", class_="info-price-unit").string
+    info_price = info_box.find("span", class_="info-price-num").text
+    info_price_unit = info_box.find("span", class_="info-price-unit").text
     ret_house_info.price = info_price + info_price_unit
 
     ##########

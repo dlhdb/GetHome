@@ -78,7 +78,7 @@ def get_houses():
     if not current_user.is_authenticated:
         return Response(status=403)
 
-    ls = house_manager.get_house_list()
+    ls = house_manager.get_house_list({"userid":current_user.get_id()})
     jstr = serialize_object(ls)
     response = Response(jstr, status=200, mimetype='application/json')
     return response
@@ -95,7 +95,7 @@ def add_house_data():
     if post_type == "parse":
         url = request.form["url"]
         parse_res = house_parser.parse591(url)
-        insert_data = house_manager.insert_house_data(parse_res)
+        insert_data = house_manager.insert_house_data(current_user.get_id(), parse_res.to_dict())
         if insert_data:
             response = Response(serialize_object(insert_data), status=201, mimetype='application/json')
         else:
@@ -112,7 +112,6 @@ def update_house_data():
 
     id = request.args.get('id')
     data = request.form
-    # TODO: parse form data to house data. not rely on under module data structure.
     if house_manager.update_house_data(id, data):
         return Response(status=200)
     else:
