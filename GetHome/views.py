@@ -1,11 +1,12 @@
 
 from flask import request, Response, redirect
 from flask import render_template
+from flask_login import current_user, login_user, logout_user
 
 from GetHome import app, logger
 from GetHome.modules import house_parser
 from GetHome.modules.house_data_manager import HouseManager, serialize_object
-from GetHome.modules import user_manager
+from GetHome.modules.user_manager import validate_google_token, User
 from app_config import config
 
 house_manager = HouseManager()
@@ -18,6 +19,9 @@ def home():
 
 @app.route("/google_signin", methods=["GET", "POST"])
 def google_signin():
+    if current_user.is_authenticated:
+        return redirect("/")
+
     if request.method == 'GET':
         res = render_template(
             "login.html",
@@ -35,13 +39,31 @@ def google_signin():
             return Response('Failed to verify double submit cookie.', status=400)
 
         id_token = request.form.get('credential')
-        if user_manager.validate_google_token(id_token):
+        id_token_dec = validate_google_token(id_token)
+        if id_token_dec:
             logger.info("validate id token success")
+            
+            user_id = "google-" + id_token_dec['email']
+            user = User.get_user(user_id)
+            if not user:
+                # user has not signed in before, record user data
+                user = User(
+                    id=user_id, 
+                    email=id_token_dec['email'],
+                    email_verified=id_token_dec['email_verified']
+                    )
+                User.add_user(user)
+
+            login_user(user)
             return redirect("/")
         else:
             logger.info("validate id token fail")
             return Response('validate id token fail', status=400)
-    
+
+@app.route('/logout')
+def logout():
+    logout_user()
+    return redirect("/")
 
 # get house list
 @app.route("/house", methods=["Get"])
