@@ -1,7 +1,7 @@
 
 features:			
 	user management:
-		user cannot do any operation until sign in
+		user session
 
 	house info schema
 		add user id
