@@ -2,11 +2,11 @@ import google.oauth2.id_token
 import google.auth.transport.requests
 import pymongo
 from bson.objectid import ObjectId
-from flask_login import LoginManager, UserMixin
+from flask_login import UserMixin
 import json
 import copy
 
-from GetHome import logger, app
+from GetHome import logger, app, login_manager
 from app_config import config
 
 def validate_google_token(token):
@@ -75,7 +75,6 @@ class User(UserMixin):
     def to_json(self):
         return json.dumps(self.__dict__, indent=4, ensure_ascii=False)
 
-login_manager = LoginManager(app)
 @login_manager.user_loader
 def load_user(id):
     return User.get_user(id)

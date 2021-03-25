@@ -1,7 +1,11 @@
 
-from flask import request, Response, redirect
-from flask import render_template
-from flask_login import current_user, login_user, logout_user
+from flask import (
+    request, Response, render_template,
+    redirect)
+from flask_login import (
+    current_user, 
+    login_user, logout_user, 
+    login_required)
 
 from GetHome import app, logger
 from GetHome.modules import house_parser
@@ -54,6 +58,9 @@ def google_signin():
                     )
                 User.add_user(user)
 
+            if not user.id in config['userid_white_list']:
+                return "user has no permission"
+
             login_user(user)
             return redirect("/")
         else:
@@ -68,6 +75,9 @@ def logout():
 # get house list
 @app.route("/house", methods=["Get"])
 def get_houses():
+    if not current_user.is_authenticated:
+        return Response(status=403)
+
     ls = house_manager.get_house_list()
     jstr = serialize_object(ls)
     response = Response(jstr, status=200, mimetype='application/json')
@@ -78,6 +88,9 @@ def get_houses():
 # - input info manually
 @app.route("/house", methods=["POST"])
 def add_house_data():
+    if not current_user.is_authenticated:
+        return Response(status=403)
+
     post_type = request.args.get('type')
     if post_type == "parse":
         url = request.form["url"]
@@ -94,6 +107,9 @@ def add_house_data():
 # update house data
 @app.route("/house", methods=["PUT"])
 def update_house_data():
+    if not current_user.is_authenticated:
+        return Response(status=403)
+
     id = request.args.get('id')
     data = request.form
     # TODO: parse form data to house data. not rely on under module data structure.
@@ -105,6 +121,9 @@ def update_house_data():
 # delete house data
 @app.route("/house", methods=["DELETE"])
 def delete_house_data():
+    if not current_user.is_authenticated:
+        return Response(status=403)
+
     id = request.args.get('id')
     if house_manager.del_house_data(id):
         return Response(status=200)

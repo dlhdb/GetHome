@@ -1,8 +1,5 @@
 
-features:			
-	user management:
-		user cannot do any operation until sign in
-
+features:
 	house info schema
 		add user id
 

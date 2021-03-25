@@ -27,4 +27,7 @@ from flask import Flask
 app = Flask(__name__)
 app.config['SECRET_KEY'] = config['env_vars']['SESSION_SECRET_KEY']
 
+from flask_login import LoginManager
+login_manager = LoginManager(app)
+
 import GetHome.views

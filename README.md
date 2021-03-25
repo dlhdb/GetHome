@@ -10,7 +10,7 @@ This is a web app learning project designed to record house selling information.
 ## Related techniques
 - backend framework：python flask
 - NoSQL DB：mongodb atlas
-- User account management：google sign in (in progress)
+- User account management：google sign in
 - Cloud platform：google app engine(GAE) (in progress)
 
 ## Learning targets
