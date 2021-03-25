@@ -19,7 +19,7 @@ function createHtmlElement_HouseDataList() {
                     <li><span>土地坪數</span> <input type="text" name="land_size" value=${data["land_size"]}></li>
                     <li><span>主建物坪數</span> <input type="text" name="main_building_size" value=${data["main_building_size"]}></li>
                     <li><span>資料來源</span> <input type="text" name="source" value=${data["source"]} maxlength="1000" size="50"></li>
-                    <li name="id" hidden>${data["_id"]["$oid"]}</li>
+                    <li name="id" hidden>${data["id"]}</li>
                 </form>
                 <button class=delete_house>Delete</button>
                 <button class=update_house>Update</button>

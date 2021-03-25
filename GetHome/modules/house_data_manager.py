@@ -5,6 +5,8 @@ from bson import json_util
 from bson.objectid import ObjectId
 from app_config import config
 
+from GetHome import logger
+
 class HouseInfo():
     def __init__(self):
         self.price = ""
@@ -87,6 +89,10 @@ class HouseManager:
         cursor = self._house_info_coll.find(filter)
 
         ret = [x for x in cursor]
+        for ele in ret:
+            ele['id'] = str(ele.get('_id'))
+            ele.pop('_id')
+
         return ret
 
     def update_house_data(self, id:str, data:dict):
